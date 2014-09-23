@@ -49,25 +49,23 @@ int account::balancechk(){
 }
 
 class chequing : public account{
-public:
-
 
 };
 class saving : public account{
-public:
 
 };
 class client{
 public:
     void depositSaving(int);
     client(int);
-    int balanceSavingChk(){
-        return savingAccount.balancechk();
-    }
+    int balanceSavingChk();
 private:
     saving savingAccount;
     chequing chequingAccount;
 };
+int client::balanceSavingChk(){
+    return savingAccount.balancechk();
+}
 void client::depositSaving(int moneysavings){
     savingAccount.deposit(moneysavings);
     
