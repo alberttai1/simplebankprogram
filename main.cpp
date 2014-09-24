@@ -1,13 +1,14 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include "users.cpp"
 
 using namespace std;
 
 void selectSaving(Customer customer) {
-    string options[2] = {"Make a deposit", "Make a withdrawl."};
+    string options[4] = {"Make a deposit", "Make a withdrawl.", "Check Balance", "Exit"};
     while (true) {
-        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << endl;
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
@@ -36,14 +37,16 @@ void selectSaving(Customer customer) {
             cout << "Your current balance is " << customer.getSavingBalance() << endl;
         } else if (choice == 3) {
             cout << "Your balance is " << customer.getSavingBalance() << endl;
+        } else if (choice == 4) {
+            break;
         }
     }
 }
 
 void selectChequing(Customer customer) {
-    string options[3] = {"Make a deposit.", "Make a withdrawl.", "Check Balance."};
+    string options[4] = {"Make a deposit.", "Make a withdrawl.", "Check Balance.", "Exit"};
     while (true) {
-        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << endl;
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
@@ -81,6 +84,8 @@ void selectChequing(Customer customer) {
             cout << "Your current balance is " << customer.getChequingBalance() << endl;
         } else if (choice == 3) {
             cout << "Your balance is " << customer.getChequingBalance() << endl;
+        } else if (choice == 4) {
+            break;
         }
     }
 }
@@ -89,7 +94,7 @@ void transaction(Customer customer) {
     bool performingTransaction = true;
     string options[3] = {"Select Chequing", "Select Saving", "Exit"};
     while (performingTransaction) {
-        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << endl;
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
@@ -129,6 +134,32 @@ void signUp() {
     accounts.close();
 }
 
+Customer loadCustomer(string username) {
+    ifstream user;
+    string filename = username + ".txt";
+    user.open(filename.c_str());
+
+    string firstname;
+    string lastname;
+    string chequingStr;
+    string savingsStr;
+
+    getline(user, firstname);
+    getline(user, lastname);
+    getline(user, chequingStr);
+    getline(user, savingsStr);
+
+    user.close();
+
+    int chequing = atoi(chequingStr.c_str());
+    int saving = atoi(savingsStr.c_str());
+
+    Customer tmp(firstname, lastname, chequing, saving);
+
+    return tmp;
+
+}
+
 void login() {
     ifstream accounts;
     accounts.open("accounts.txt");
@@ -151,7 +182,8 @@ void login() {
             string pass = line.substr(pos + 1, line.max_size());
             if (pass.compare(password) == 0) {
                 cout << "Welcome " << username << "!" << endl;
-                transaction();
+                // loadCustomer(username);
+                transaction((loadCustomer(username)));
             }
         }
     }
@@ -159,10 +191,12 @@ void login() {
 
 int main() {
 
-    Customer bowen("Bowen", "Jiang", 400, 200);
+    login();
 
-    cout << "Chequing Account: " << bowen.getChequingBalance() << endl;
-    cout << "Savings Account: " << bowen.getSavingBalance() << endl;
+    // Customer bowen("Bowen", "Jiang", 400, 200);
+
+    // cout << "Chequing Account: " << bowen.getChequingBalance() << endl;
+    // cout << "Savings Account: " << bowen.getSavingBalance() << endl;
 
     // User albert("albert", "tai");
     // cout << albert.getFirstName() << "\n";
