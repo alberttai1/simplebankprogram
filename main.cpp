@@ -6,8 +6,8 @@ using namespace std;
 void selectSaving(Customer customer) {
     string options[2] = {"Make a deposit", "Make a withdrawl."};
     while (true) {
-        cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
-        for (int i = 0; i < len(options); i++) {
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
         int choice;
@@ -42,8 +42,8 @@ void selectSaving(Customer customer) {
 void selectChequing(Customer customer) {
     string options[3] = {"Make a deposit.", "Make a withdrawl.", "Check Balance."};
     while (true) {
-        cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
-        for (int i = 0; i < len(options); i++) {
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
         int choice;
@@ -88,8 +88,8 @@ void transaction(Customer customer) {
     bool performingTransaction = true;
     string options[3] = {"Select Chequing", "Select Saving", "Exit"};
     while (performingTransaction) {
-        cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
-        for (int i = 0; i < len(options); i++) {
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i];
         }
         int choice;
