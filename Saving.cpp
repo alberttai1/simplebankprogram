@@ -19,5 +19,5 @@ Saving::Saving(int amount, double i) {
 }
 
 Saving::Saving(int amount) {
-	balance = amount;
+	super(amount);
 }

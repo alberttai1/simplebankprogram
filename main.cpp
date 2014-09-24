@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Saving.cpp"
+#include "accounts.cpp"
 
 using namespace std;
 
 int main() {
 
-    Saving umar(100);
+    Chequing umar(100);
     cout << umar.getBalance() << "\n";
 
     umar.withdraw(80);
