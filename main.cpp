@@ -5,8 +5,8 @@
 
 using namespace std;
 
-void selectSaving(Customer customer) {
-    string options[4] = {"Make a deposit", "Make a withdrawl.", "Check Balance", "Exit"};
+void selectSaving(Customer *customer) {
+    string options[5] = {"Make a deposit", "Make a withdrawl.", "Transfer to chequing", "Check Balance", "Exit"};
     while (true) {
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << endl;
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
@@ -20,31 +20,44 @@ void selectSaving(Customer customer) {
             int amount;
             cin >> amount;
 
-            customer.depositSaving(amount);
+            customer->depositSaving(amount);
 
-            cout << "Your new balance is $" << customer.getSavingBalance() << endl;
+            cout << "Your new balance is $" << customer->getSavingBalance() << endl;
         } else if (choice == 2) {
             cout << "How much would you like to withdraw?" << endl;
             int amount;
             cin >> amount;
-            int diff = customer.getChequingBalance() - amount;
+            int diff = customer->getSavingBalance() - amount;
             if (diff < 0) {
                 cout << "Insufficient funds." << endl;
             } else {
-                customer.withdrawSaving(amount);
+                customer->withdrawSaving(amount);
             }
 
-            cout << "Your current balance is " << customer.getSavingBalance() << endl;
+            cout << "Your current balance is " << customer->getSavingBalance() << endl;
         } else if (choice == 3) {
-            cout << "Your balance is " << customer.getSavingBalance() << endl;
+            cout << "How much would you like to transfer?" << endl;
+            int tamount;
+            cin >> tamount;
+
+            int diff = customer->getSavingBalance() - tamount;
+            if (diff < 0) {
+                cout << "Insufficient funds." << endl;
+            } else {
+                customer->withdrawSaving(tamount);
+                customer->depositChequing(tamount);
+                cout << "Chequing Balance: " << customer->getChequingBalance() << endl;
+            }
+
+            cout << "Savings Balance: " << customer->getSavingBalance() << endl;
         } else if (choice == 4) {
-            break;
+            cout << "Your balance is " << customer->getSavingBalance() << endl;
         }
     }
 }
 
-void selectChequing(Customer customer) {
-    string options[4] = {"Make a deposit.", "Make a withdrawl.", "Check Balance.", "Exit"};
+void selectChequing(Customer *customer) {
+    string options[5] = {"Make a deposit.", "Make a withdrawl.", "Transfer to savings.", "Check Balance.", "Exit"};
     while (true) {
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << endl;
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
@@ -58,39 +71,53 @@ void selectChequing(Customer customer) {
             int amount;
             cin >> amount;
 
-            customer.depositChequing(amount);
+            customer->depositChequing(amount);
 
-            cout << "Your new balance is $" << customer.getChequingBalance() << endl;
+            cout << "Your new balance is $" << customer->getChequingBalance() << endl;
         } else if (choice == 2) {
             cout << "How much would you like to withdraw?" << endl;
             int amount;
             cin >> amount;
 
-            int diff = customer.getChequingBalance() - amount - 2;
+            int diff = customer->getChequingBalance() - amount - 2;
             if (diff < 1000 && diff > 0) {
                 cout << "Your balance will be " << diff << ". If you continue a surcharge fee of $2.00 will apply. Would you like to continue? (yes or no)" << endl;
                 string ans;
                 cin >> ans;
 
                 if (ans.compare("yes") == 0) {
-                    customer.withdrawChequing(amount + 2);
+                    customer->withdrawChequing(amount + 2);
                 }
             } else if (diff < 0) {
                 cout << "Insufficient funds." << endl;
             } else {
-                customer.withdrawChequing(amount);
+                customer->withdrawChequing(amount);
             }
 
-            cout << "Your current balance is " << customer.getChequingBalance() << endl;
+            cout << "Your current balance is " << customer->getChequingBalance() << endl;
         } else if (choice == 3) {
-            cout << "Your balance is " << customer.getChequingBalance() << endl;
+            cout << "How much would you like to transfer?" << endl;
+            int tamount;
+            cin >> tamount;
+
+            int diff = customer->getChequingBalance() - tamount;
+            if (diff < 0) {
+                cout << "Insufficient funds." << endl;
+            } else {
+                customer->withdrawChequing(tamount);
+                customer->depositSaving(tamount);
+                cout << "Saving Balance: " << customer->getSavingBalance() << endl;
+            }
+
+            cout << "Chequing Balance: " << customer->getChequingBalance() << endl;
+            
         } else if (choice == 4) {
-            break;
+            cout << "Your balance is " << customer->getChequingBalance() << endl;
         }
     }
 }
 
-void transaction(Customer customer) {
+void transaction(Customer *customer) {
     bool performingTransaction = true;
     string options[3] = {"Select Chequing", "Select Saving", "Exit"};
     while (performingTransaction) {
@@ -182,8 +209,8 @@ void login() {
             string pass = line.substr(pos + 1, line.max_size());
             if (pass.compare(password) == 0) {
                 cout << "Welcome " << username << "!" << endl;
-                // loadCustomer(username);
-                transaction((loadCustomer(username)));
+                Customer tmp = (loadCustomer(username));
+                transaction(&tmp);
             }
         }
     }
