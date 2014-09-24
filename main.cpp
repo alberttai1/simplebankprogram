@@ -3,21 +3,44 @@
 
 using namespace std;
 
-void makeDeposit(Customer customer) {
-    bool makingDeposit = true;
-    while (makingDeposit) {
-        cout << "How much would you like to deposit?" << endl;
-        int amount;
-        cin >> amount;
+void selectSaving(Customer customer) {
+    string options[2] = {"Make a deposit", "Make a withdrawl."};
+    while (true) {
+        cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
+        for (int i = 0; i < len(options); i++) {
+            cout << (i + 1) << ". " << options[i];
+        }
+        int choice;
+        cin >> choice;
 
-        customer.deposit(amount);
+        if (choice == 1) {
+            cout << "How much would you like to deposit?" << endl;
+            int amount;
+            cin >> amount;
 
-        cout << "Your new balance is $" << customer.get
+            customer.depositSaving(amount);
+
+            cout << "Your new balance is $" << customer.getSavingBalance() << endl;
+        } else if (choice == 2) {
+            cout << "How much would you like to withdraw?" << endl;
+            int amount;
+            cin >> amount;
+            int diff = customer.getChequingBalance() - amount;
+            if (diff < 0) {
+                cout << "Insufficient funds." << endl;
+            } else {
+                customer.withdrawSaving(amount);
+            }
+
+            cout << "Your current balance is " << customer.getSavingBalance() << endl;
+        } else if (choice == 3) {
+            cout << "Your balance is " << customer.getSavingBalance() << endl;
+        }
     }
 }
 
 void selectChequing(Customer customer) {
-    string options[2] = {"Make a deposit.", "Make a withdrawl."};
+    string options[3] = {"Make a deposit.", "Make a withdrawl.", "Check Balance."};
     while (true) {
         cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
         for (int i = 0; i < len(options); i++) {
@@ -50,14 +73,20 @@ void selectChequing(Customer customer) {
                 }
             } else if (diff < 0) {
                 cout << "Insufficient funds." << endl;
+            } else {
+                customer.withdrawChequing(amount);
             }
+
+            cout << "Your current balance is " << customer.getChequingBalance() << endl;
+        } else if (choice == 3) {
+            cout << "Your balance is " << customer.getChequingBalance() << endl;
         }
     }
 }
 
 void transaction(Customer customer) {
     bool performingTransaction = true;
-    string options[2] = {"Select Chequing", "Select Saving"};
+    string options[3] = {"Select Chequing", "Select Saving", "Exit"};
     while (performingTransaction) {
         cout << "What would you like to do? (Enter number between 1-" << len(options) << endl;
         for (int i = 0; i < len(options); i++) {
@@ -67,7 +96,11 @@ void transaction(Customer customer) {
         cin >> choice;
 
         if (choice == 1) {
-            makeDeposit(customer);
+            selectChequing(customer);
+        } else if (choice == 2) {
+            selectSaving(customer);
+        } else if (choice == 3) {
+            performingTransaction = false;
         }
     }
 }

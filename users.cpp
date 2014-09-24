@@ -13,6 +13,10 @@ public:
 	Customer(string, string);
 	Customer(string, string, int);
 	Customer(string, string, int, int);
+	void depositChequing(int);
+	void depositSaving(int);
+	void withdrawChequing(int);
+	void withdrawSaving(int);
 	int getChequingBalance();
 	int getSavingBalance();
 
@@ -28,6 +32,22 @@ Customer::Customer(string firstName, string lastName, int camount): User(firstNa
 Customer::Customer(string firstName, string lastName, int camount, int samount): User(firstName, lastName) {
 	chequing = Chequing(camount);
 	saving = Saving(samount);
+}
+
+void Customer::depositChequing(int amount) {
+	chequing.deposit(amount);
+}
+
+void Customer::depositSaving(int amount) {
+	saving.deposit(amount);
+}
+
+void Customer::withdrawChequing(int amount) {
+	chequing.withdraw(amount);
+}
+
+void Customer::withdrawSaving(int amount) {
+	saving.withdraw(amount);
 }
 
 int Customer::getChequingBalance() {return chequing.getBalance();}
