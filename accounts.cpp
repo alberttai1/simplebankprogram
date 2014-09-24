@@ -3,12 +3,16 @@
 
 using namespace std;
 
+//----------------------------------------------------------------------------------------
 class Chequing: public Account {
 
 public:
 	Chequing(int amount): Account(amount) {}
 
 };
+//----------------------------------------------------------------------------------------
+
+
 
 //----------------------------------------------------------------------------------------
 class Saving: public Account {
@@ -21,10 +25,12 @@ public:
 
 };
 
+Saving::Saving(int amount): Account(amount) {}
+
 Saving::Saving(int amount, double i) {
 	balance = amount;
 	interest = i;
 }
 
-Saving::Saving(int amount): Account(amount) {}
+
 //----------------------------------------------------------------------------------------
