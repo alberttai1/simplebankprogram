@@ -11,11 +11,11 @@
 class account{
 public:
     void deposit(int);
-    void withdraw(int);
+    bool withdraw(int);
     int balancechk();
     account();
     account(int);
-
+    bool status;
     
 private:
     //std::string username;
@@ -33,13 +33,14 @@ void account::deposit(int depositcash){
     
     
 }
-void account::withdraw(int withdrawcash){
+bool account::withdraw(int withdrawcash){
     if (withdrawcash > balance){
         std::cout<<"Error: Insufficient funds, Withdrawing terminated. Your balance is: ";
-        
+        return 0;
     }
     else{
         balance = balance - withdrawcash;
+        return 1;
         
     }
     
@@ -57,14 +58,37 @@ class saving : public account{
 class client{
 public:
     void depositSaving(int);
+    void chequingToSaving(int);
+    void savingToChequing(int);
     client(int);
     int balanceSavingChk();
+    int balanceChequingChk();
 private:
     saving savingAccount;
     chequing chequingAccount;
 };
+
 int client::balanceSavingChk(){
     return savingAccount.balancechk();
+}
+int client::balanceChequingChk(){
+    return chequingAccount.balancechk();
+}
+void client::chequingToSaving(int transfer){
+    if(chequingAccount.withdraw(transfer)==1){
+        savingAccount.deposit(transfer);
+    }
+    else{
+        std::cout<<"Cannot transfer due to insufficient funds in chequing";
+    }
+}
+void client::savingToChequing(int transfer){
+    if(savingAccount.withdraw(transfer)==1){
+        chequingAccount.deposit(transfer);
+    }
+    else{
+        std::cout<<"Cannot transfer due to insufficient funds in savings";
+    }
 }
 void client::depositSaving(int moneysavings){
     savingAccount.deposit(moneysavings);
@@ -82,6 +106,9 @@ int main(int argc, const char * argv[])
     std::cout<<albert.balanceSavingChk()<<std::endl;
     albert.depositSaving(8);
     std::cout<<albert.balanceSavingChk()<<std::endl;
+    albert.savingToChequing(500);
+    std::cout<<albert.balanceSavingChk()<<std::endl;
+    std::cout<<albert.balanceChequingChk()<<std::endl;
     
     return 0;
 }
