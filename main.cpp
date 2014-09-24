@@ -1,17 +1,17 @@
 #include <iostream>
-#include "account.cpp"
+#include "Saving.cpp"
 
 using namespace std;
 
 int main() {
 
-    Account umar(100);
+    Saving umar(100);
     cout << umar.getBalance() << "\n";
 
-    umar.withdraw(10);
+    umar.withdraw(80);
     cout << umar.getBalance() << "\n";
 
-    umar.deposit(200);
+    umar.deposit(300);
     cout << umar.getBalance() << "\n";
 
     return 0;
