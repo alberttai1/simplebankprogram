@@ -544,41 +544,41 @@ void manageCustomer(Customer *customer) {
     }
 }
 
-void maintenance() {
-    cout << "Would you like to turn on the execution trace?" << endl;
+void maintenance() { //maintenance console 
+    cout << "Would you like to turn on the execution trace?" << endl; //asking if you want to run the execution trace 
 
     string choice;
-    cin >> choice;
+    cin >> choice; //take the choice 
 
-    if (choice.compare("yes") == 0 || choice.compare("Yes") == 0) {
-        tracking = true;
-        cout << "Tracking is now turned on." << endl;
-        trackFile << "Tracking is now turned on." << endl;
-    } else if (choice.compare("no") == 0 || choice.compare("No") == 0) {
-        tracking = false;
-        cout << "Tracking is now turned off." << endl;
-        trackFile << "Tracking is now turned off." << endl;
+    if (choice.compare("yes") == 0 || choice.compare("Yes") == 0) { //if choice is yes then 
+        tracking = true; //start tracking 
+        cout << "Tracking is now turned on." << endl; //let users know tracking is starting 
+        trackFile << "Tracking is now turned on." << endl; //put the first line in trackign that tracking got turned on 
+    } else if (choice.compare("no") == 0 || choice.compare("No") == 0) { //if tracking isn't turned on 
+        tracking = false; //put tracking as false 
+        cout << "Tracking is now turned off." << endl; //tracking is turned off let the users know 
+        trackFile << "Tracking is now turned off." << endl; //put it into the tracking file as well 
     }
 }
 
-void manager() {
-    vector<Customer> customers;
+void manager() { //managing console 
+    vector<Customer> customers; //initalize a vecotr of customers 
 
     ifstream accounts;
-    accounts.open("accounts.txt");
+    accounts.open("accounts.txt"); //open the accounts.txt that contains user and apssword 
 
     string line;
-    while (getline(accounts, line)) {
-        int cpos = line.find(",");
-        string username = line.substr(0, cpos);
-        if (username.compare("manager") == 0 || username.compare("maintenance") == 0)
-            continue;
+    while (getline(accounts, line)) { //read line per line 
+        int cpos = line.find(","); //find the , 
+        string username = line.substr(0, cpos); //get the username 
+        if (username.compare("manager") == 0 || username.compare("maintenance") == 0) //see if it is a manger 
+            continue; //if so continue 
 
-        Customer tmp = loadCustomer(username);
-        customers.insert(customers.end(), tmp);
+        Customer tmp = loadCustomer(username); //get the customer 
+        customers.insert(customers.end(), tmp); 
     }
 
-    accounts.close();
+    accounts.close(); //close the account 
 
     string options[4] = {"Select Customers", "Display All Balances", "Open an account", "Exit"};
     while (true) {
