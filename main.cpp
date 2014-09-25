@@ -49,18 +49,18 @@ void openAccount(Customer *customer) { //open account for customer
         if (!(customer->isChequing())) {
             customer->openChequing(); //open chequing
         } else {
-            cout << "Account already exists. Balance is $" << customer->getChequingBalance() << endl;
-            if (tracking) {
-                trackFile << "Account already exists. Balance is $" << customer->getChequingBalance() << endl;
+            cout << "Account already exists. Balance is $" << customer->getChequingBalance() << endl; //chequing account already exist 
+            if (tracking) { //tracking is on 
+                trackFile << "Account already exists. Balance is $" << customer->getChequingBalance() << endl; //store it in the file  
             }
-        }
-    } else if (choice == 2) {
-        if (!(customer->isSaving())) {
-            customer->openSaving();
+        } 
+    } else if (choice == 2) { //if customer wants to open a savings account 
+        if (!(customer->isSaving())) { //check if there is a savings acocunt 
+            customer->openSaving(); //open savings 
         } else {
-            cout << "Account already exists. Balance is $" << customer->getSavingBalance() << endl;
+            cout << "Account already exists. Balance is $" << customer->getSavingBalance() << endl; //saving account already exist 
             if (tracking) {
-                trackFile << "Account already exists. Balance is $" << customer->getSavingBalance() << endl;
+                trackFile << "Account already exists. Balance is $" << customer->getSavingBalance() << endl; //save output into savings account 
             }
         }
         
@@ -68,146 +68,146 @@ void openAccount(Customer *customer) { //open account for customer
 }
 
 void selectSaving(Customer *customer) {
-    string options[5] = {"Make a deposit", "Make a withdrawl.", "Transfer to chequing", "Check Balance", "Exit"};
+    string options[5] = {"Make a deposit", "Make a withdrawal.", "Transfer to chequing", "Check Balance", "Exit"};
     while (true) {
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n";
-        if (tracking) {
+        if (tracking) { //if tracking is on output how many options were there 
             trackFile << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
         }
-        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
-            cout << (i + 1) << ". " << options[i] << endl;
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) { 
+            cout << (i + 1) << ". " << options[i] << endl; //print out the options possible 
             if (tracking) {
-                trackFile << (i + 1) << ". " << options[i] << endl;
+                trackFile << (i + 1) << ". " << options[i] << endl; //tracking is on copy it to the tracking file 
             }
         }
-        int choice;
-        cin >> choice;
-        if (tracking) {
-            trackFile << choice << endl;
+        int choice; 
+        cin >> choice; //user inputs a choice 
+        if (tracking) { //if tracking is on 
+            trackFile << choice << endl; 
         }
 
-        if (choice == 1) {
-            cout << "How much would you like to deposit?" << "\n";
-            if (tracking) {
-                trackFile << "How much would you like to deposit?" << endl;
+        if (choice == 1) { //if choice selected is make a deposit 
+            cout << "How much would you like to deposit?" << "\n"; 
+            if (tracking) { //if tracking is on 
+                trackFile << "How much would you like to deposit?" << endl; 
             }
-            int amount;
-            cin >> amount;
-            if (tracking) {
-                trackFile << amount << endl;
+            int amount; 
+            cin >> amount; //user inputs the amount to deposit 
+            if (tracking) { //if tracking is on 
+                trackFile << amount << endl; //input it into the tracking file about the deposit amount 
             }
 
-            customer->depositSaving(amount);
+            customer->depositSaving(amount); //deposit the saving of the money 
 
-            cout << "Your new balance is $" << customer->getSavingBalance() << "\n";
-            if (tracking) {
-                trackFile << "Your new balance is $" << customer->getSavingBalance() << endl;
+            cout << "Your new balance is $" << customer->getSavingBalance() << "\n"; //output the new balance back to the users 
+            if (tracking) { //if tracking is on 
+                trackFile << "Your new balance is $" << customer->getSavingBalance() << endl; //write into tracking file 
             }
-        } else if (choice == 2) {
-            cout << "How much would you like to withdraw?" << "\n";
-            if (tracking) {
-                trackFile << "How much would you like to withdraw?" << endl;
+        } else if (choice == 2) { //making a withdrawal 
+            cout << "How much would you like to withdraw?" << "\n"; //ask how much 
+            if (tracking) { //if tracking on 
+                trackFile << "How much would you like to withdraw?" << endl; //input it into tracking file 
             }
             int amount;
-            cin >> amount;
-            if (tracking) {
-                trackFile << amount << endl;
+            cin >> amount; //user input the amount to withdraw
+            if (tracking) { //if tracking is on 
+                trackFile << amount << endl; //put the amount of money the user tracks into track file 
             }
-            int diff = customer->getSavingBalance() - amount;
-            if (diff < 0) {
-                cout << "Insufficient funds." << "\n";
-                if (tracking) {
-                    trackFile << "Insufficient funds." << endl;
+            int diff = customer->getSavingBalance() - amount; //the difference between user ask to withdraw and the balance 
+            if (diff < 0) { //if difference is bigger than zero 
+                cout << "Insufficient funds." << "\n"; //can't withdraw as insufficient funds and let user know 
+                if (tracking) { //if tracking is on 
+                    trackFile << "Insufficient funds." << endl; //put that into the tracking file 
                 }
             } else {
-                customer->withdrawSaving(amount);
+                customer->withdrawSaving(amount); //now withdraw the amount of money 
             }
 
-            cout << "Your current balance is " << customer->getSavingBalance() << "\n";
+            cout << "Your current balance is " << customer->getSavingBalance() << "\n"; //let the user know how much balance you have 
             if (tracking) {
-                trackFile << "Your current balance is " << customer->getSavingBalance() << endl;
+                trackFile << "Your current balance is " << customer->getSavingBalance() << endl; //tracking is on then put the balance on the tracking file 
             }
-        } else if (choice == 3) {
-            cout << "How much would you like to transfer?" << "\n";
-            if (tracking) {
-                trackFile << "How much would you like to transfer?" << endl;
+        } else if (choice == 3) { //transfer to chequing 
+            cout << "How much would you like to transfer?" << "\n"; 
+            if (tracking) { //if tracking is on 
+                trackFile << "How much would you like to transfer?" << endl; //copy the output to tracking file 
             }
             int tamount;
-            cin >> tamount;
-            if (tracking) {
-                trackFile << tamount << endl;
+            cin >> tamount; //take the input of the transfer amount 
+            if (tracking) { //if tracking is on 
+                trackFile << tamount << endl; //put the transfer amount into the track file 
             }
 
-            int diff = customer->getSavingBalance() - tamount;
-            if (diff < 0) {
-                cout << "Insufficient funds." << "\n";
-                if (tracking) {
-                    trackFile << "Insufficient funds." << endl;
+            int diff = customer->getSavingBalance() - tamount; //look at the difference between balance and transfer amount 
+            if (diff < 0) { //if difference is below zero 
+                cout << "Insufficient funds." << "\n"; //that means not enough funds and let user know 
+                if (tracking) { //tracking is on 
+                    trackFile << "Insufficient funds." << endl; //put the insufficient funds output into tracking file 
                 }
             } else {
-                customer->withdrawSaving(tamount);
-                customer->depositChequing(tamount);
-                cout << "Chequing Balance: $" << customer->getChequingBalance() << "\n";
-                if (tracking) {
-                    trackFile << "Chequing Balance: $" << customer->getChequingBalance() << endl;
+                customer->withdrawSaving(tamount); //withdraw savings of the transfer amounts 
+                customer->depositChequing(tamount); //deposit transfer amounts into chequing 
+                cout << "Chequing Balance: $" << customer->getChequingBalance() << "\n"; 
+                if (tracking) { //if tracking is on 
+                    trackFile << "Chequing Balance: $" << customer->getChequingBalance() << endl; //put the chequing balance into tracking file 
                 }
             }
 
-            cout << "Savings Balance: $" << customer->getSavingBalance() << "\n";
+            cout << "Savings Balance: $" << customer->getSavingBalance() << "\n"; 
             if (tracking) {
-                trackFile << "Savings Balance: $" << customer->getSavingBalance() << endl;
+                trackFile << "Savings Balance: $" << customer->getSavingBalance() << endl; //if tracking is on then put the savings balance into tracking file 
             }
-        } else if (choice == 4) {
-            cout << "Your balance is $" << customer->getSavingBalance() << "\n";
+        } else if (choice == 4) {//if user chose to check balance
+            cout << "Your balance is $" << customer->getSavingBalance() << "\n"; //output the balance to user 
             if (tracking) {
-                trackFile << "Your balance is $" << customer->getSavingBalance() << endl;
+                trackFile << "Your balance is $" << customer->getSavingBalance() << endl; //put the output into the tracking file if tracking file is on 
             }
-        } else if (choice == 5) {
-            break;
+        } else if (choice == 5) { //if user chose to exit 
+            break; 
         }
     }
 }
 
-void selectChequing(Customer *customer) {
-    string options[5] = {"Make a deposit.", "Make a withdrawl.", "Transfer to savings.", "Check Balance.", "Exit"};
-    while (true) {
-        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n";
-        if (tracking) {
-            trackFile << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl;
+void selectChequing(Customer *customer) { //if customer select chequing 
+    string options[5] = {"Make a deposit.", "Make a withdrawl.", "Transfer to savings.", "Check Balance.", "Exit"}; 
+    while (true) { 
+        cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n"; 
+        if (tracking) { //if tracking is on 
+            trackFile << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << endl; //output this into tracking file 
         }
-        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
-            cout << (i + 1) << ". " << options[i]  << endl;
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) { 
+            cout << (i + 1) << ". " << options[i]  << endl; //show the options 
             if (tracking) {
-                trackFile << (i + 1) << ". " << options[i] << endl;
+                trackFile << (i + 1) << ". " << options[i] << endl; //put the options into tracking file 
             }
         }
         int choice;
-        cin >> choice;
-        if (tracking) {
-            trackFile << choice << endl;
+        cin >> choice; //take the input of the users for choices 
+        if (tracking) { //if tracking is on 
+            trackFile << choice << endl; //put that into tracking file 
         }
 
-        if (choice == 1) {
+        if (choice == 1) { //if user chose make a deposit 
             cout << "How much would you like to deposit?" << "\n";
-            if (tracking) {
-                trackFile << "How much would you like to deposit?" << endl;
+            if (tracking) { //if tracking is on 
+                trackFile << "How much would you like to deposit?" << endl; //put the output file into tracking file 
             }
-            int amount;
-            cin >> amount;
+            int amount; 
+            cin >> amount; //take the input of the clients choosing the amount 
             if (tracking) {
-                trackFile << amount << endl;
+                trackFile << amount << endl; //put it into tracking file if tracking is on 
             }
 
-            customer->depositChequing(amount);
+            customer->depositChequing(amount); //deposit into chequing 
 
-            cout << "Your new balance is $" << customer->getChequingBalance() << "\n";
+            cout << "Your new balance is $" << customer->getChequingBalance() << "\n"; //your new balance of chequing account returned 
             if (tracking) {
-                trackFile << "Your new balance is $" << customer->getChequingBalance() << endl;
+                trackFile << "Your new balance is $" << customer->getChequingBalance() << endl; //put into tracking file 
             }
-        } else if (choice == 2) {
-            cout << "How much would you like to withdraw?" << "\n";
-            if (tracking) {
-                trackFile << "How much would you like to withdraw?" << endl;
+        } else if (choice == 2) { //if the user choose make a withdrawal 
+            cout << "How much would you like to withdraw?" << "\n"; 
+            if (tracking) { //if tracking is on 
+                trackFile << "How much would you like to withdraw?" << endl; 
             }
             int amount;
             cin >> amount;
@@ -507,31 +507,7 @@ void manageCustomer(Customer *customer) {
             openAccount(customer);
         } else if (choice == 2) {
             closeAccount(customer);
-            // cout << "Which account would you like to close? (1-2)" << endl;
-            // cout << "1. Chequing" << endl;
-            // cout << "2. Saving" << endl;
 
-            // cin >> choice;
-            // if (choice == 1) {
-            //     if (customer->getChequingBalance() == 0) {
-            //         customer->closeChequing();
-            //     } else {
-            //         cout << "Account cannot be closed. Balance is not $0." << endl;
-            //         if (tracking) {
-            //             trackFile << "Account cannot be closed. Balance is not $0." << endl;
-            //         }
-            //     }
-            // } else if (choice == 2) {
-            //     if (customer->getSavingBalance() == 0) {
-            //         customer->closeSaving();
-            //     } else {
-            //         cout << "Account cannot be closed. Balance is not $0." << endl;
-            //         if (tracking) {
-            //             trackFile << "Account cannot be closed. Balance is not $0." << endl;
-            //         }
-            //     }
-                
-            // }
         } else if (choice == 3) {
             if (customer->isChequing()) {
                 cout << "Chequing Balance: $" << customer->getChequingBalance() << endl;
@@ -631,8 +607,7 @@ void manager() {
                         trackFile << "Closed" << endl;
                     }
                 }
-                // cout << (i + 1) << ". " << it->getFirstName() << " " << it->getLastName() << endl;
-                // cout << "Chequing Balance: "
+  
             }
         } else if (choice == 3) {
             signup();
@@ -697,24 +672,7 @@ int main() {
 
     trackFile.close();
 
-    // login();
-
-    // Customer bowen("Bowen", "Jiang", 400, 200);
-
-    // cout << "Chequing Account: " << bowen.getChequingBalance() << endl;
-    // cout << "Savings Account: " << bowen.getSavingBalance() << endl;
-
-    // User albert("albert", "tai");
-    // cout << albert.getFirstName() << "\n";
-
-    // Chequing umar(100);
-    // cout << umar.getBalance() << "\n";
-
-    // umar.withdraw(80);
-    // cout << umar.getBalance() << "\n";
-
-    // umar.deposit(300);
-    // cout << umar.getBalance() << "\n";
+  
 
     return 0;
 }
