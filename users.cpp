@@ -34,10 +34,14 @@ public:
 Customer::Customer(string firstName, string lastName): User(firstName, lastName) {}
 
 Customer::Customer(string firstName, string lastName, int camount): User(firstName, lastName) {
+	openChequing();
 	chequing = Chequing(camount);
 }
 
 Customer::Customer(string firstName, string lastName, int camount, int samount): User(firstName, lastName) {
+	openChequing();
+	if (samount > 0)
+		openSaving();
 	chequing = Chequing(camount);
 	saving = Saving(samount);
 }

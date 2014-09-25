@@ -1,0 +1,10 @@
+Welcome to the Bank!
+What would you like to do? (Enter a number from 1-2
+1. Login
+2. Exit
+What would you like to do? (Enter a number from 1-2
+1. Login
+2. Exit
+What would you like to do? (Enter a number from 1-2
+1. Login
+2. Exit

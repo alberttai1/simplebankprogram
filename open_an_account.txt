@@ -1,0 +1,65 @@
+Welcome to the Bank!
+What would you like to do? (Enter a number from 1-2
+1. Login
+2. Exit
+Username: Password: Welcome umar!
+What would you like to do? (Enter number between 1-5     
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+Account is closed.
+What would you like to do? (Enter number between 1-5     
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+Which account would you like to close? (1-2)
+1. Chequing
+2. Saving
+What would you like to do? (Enter number between 1-5     
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+What would you like to do? (Enter number between 1-5     
+1. Make a deposit
+2. Make a withdrawl.
+3. Transfer to chequing
+4. Check Balance
+5. Exit
+How much would you like to deposit?
+Your new balance is $5000
+What would you like to do? (Enter number between 1-5     
+1. Make a deposit
+2. Make a withdrawl.
+3. Transfer to chequing
+4. Check Balance
+5. Exit
+How much would you like to withdraw?
+Your current balance is 4700
+What would you like to do? (Enter number between 1-5     
+1. Make a deposit
+2. Make a withdrawl.
+3. Transfer to chequing
+4. Check Balance
+5. Exit
+Your balance is $4700
+What would you like to do? (Enter number between 1-5     
+1. Make a deposit
+2. Make a withdrawl.
+3. Transfer to chequing
+4. Check Balance
+5. Exit
+What would you like to do? (Enter number between 1-5     
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+What would you like to do? (Enter a number from 1-2
+1. Login
+2. Exit
