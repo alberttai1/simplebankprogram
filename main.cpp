@@ -2,52 +2,52 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
-#include "users.cpp"
+#include "users.cpp" //include the users.cpp
 
 using namespace std;
 
-bool tracking = false;
-ofstream trackFile;
+bool tracking = false; //tells you whether tracking is on...default is off
+ofstream trackFile; //track file we store our tracking into
 
 void closeAccount(Customer *customer) {
-    cout << "Which account would you like to close? (1-2)" << endl;
+    cout << "Which account would you like to close? (1-2)" << endl; //asks users which accounts wants to be closed
     cout << "1. Chequing" << endl;
     cout << "2. Saving" << endl;
 
     int choice;
     cin >> choice;
-    if (choice == 1) {
-        if (customer->getChequingBalance() == 0) {
-            customer->closeChequing();
+    if (choice == 1) { //choose to close chequeing account
+        if (customer->getChequingBalance() == 0) { //checks if balance is zero or not
+            customer->closeChequing(); //call method to close
         } else {
-            cout << "Account cannot be closed. Balance is not $0." << endl;
-            if (tracking) {
-                trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            cout << "Account cannot be closed. Balance is not $0." << endl; //account can't be closed as balance isn't zero
+            if (tracking) { //if tracking is on
+                trackFile << "Account cannot be closed. Balance is not $0." << endl; //store same output into the tracking file
             }
         }
-    } else if (choice == 2) {
-        if (customer->getSavingBalance() == 0) {
-            customer->closeSaving();
+    } else if (choice == 2) { //choose to close savings account
+        if (customer->getSavingBalance() == 0) { //checks if balance is zero or not
+            customer->closeSaving(); //call method to close saving
         } else {
-            cout << "Account cannot be closed. Balance is not $0." << endl;
-            if (tracking) {
-                trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            cout << "Account cannot be closed. Balance is not $0." << endl; //let user know account can't be closed as balance isn't zero
+            if (tracking) { //if tracking is on
+                trackFile << "Account cannot be closed. Balance is not $0." << endl; //store same output into the tracking file
             }
         }
         
     }
 }
 
-void openAccount(Customer *customer) {
-    cout << "Which account would you like to close? (1-2)" << endl;
+void openAccount(Customer *customer) { //open account for customer
+    cout << "Which account would you like to open? (1-2)" << endl; //asks which one the customer wants to open
     cout << "1. Chequing" << endl;
     cout << "2. Saving" << endl;
 
-    int choice;
-    cin >> choice;
-    if (choice == 1) {
+    int choice; //choice the customer makes
+    cin >> choice; //save it into the variable
+    if (choice == 1) { //customer chose to open a chequing account
         if (!(customer->isChequing())) {
-            customer->openChequing();
+            customer->openChequing(); //open chequing
         } else {
             cout << "Account already exists. Balance is $" << customer->getChequingBalance() << endl;
             if (tracking) {
