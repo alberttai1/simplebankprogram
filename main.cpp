@@ -7,6 +7,7 @@
 using namespace std;
 
 bool tracking = false;
+ofstream trackFile;
 
 void selectSaving(Customer *customer) {
     string options[5] = {"Make a deposit", "Make a withdrawl.", "Transfer to chequing", "Check Balance", "Exit"};
@@ -171,6 +172,9 @@ bool checkForExistingAccount(string username) {
 void signup() {
     ofstream accounts;
     accounts.open("accounts.txt", ios::out | ios::app);
+    if (tracking) {
+        trackFile << "File \"accounts.txt\" was opened for append." << endl;
+    }
 
     bool signingup = true;
     while (signingup) { 
@@ -179,9 +183,16 @@ void signup() {
         string secPass;
         cout << "Username: ";
         cin >> username;
-
+        if (tracking) {
+            trackFile << "Obtained username from user." << endl;
+            trackFile << "Username: " << username << endl;
+        }
         cout << "Password: ";
         cin >> password;
+
+        if (tracking) {
+            trackFile << "Obtained password from user." << endl;
+        }
 
         cout << "Re-Enter Password: ";
         cin >> secPass;
@@ -271,7 +282,16 @@ void manageCustomer(Customer *customer) {
 void maintenance() {
     cout << "Would you like to turn on the execution trace?" << endl;
 
-    
+    string choice;
+    cin >> choice;
+
+    if (choice.compare("yes") == 0 || choice.compare("Yes") == 0) {
+        tracking = true;
+        cout << "Tracking is now turned on." << endl;
+    } else if (choice.compare("no") == 0 || choice.compare("No") == 0) {
+        tracking = false;
+        cout << "Tracking is now turned off." << endl;
+    }
 }
 
 void manager() {
@@ -364,7 +384,7 @@ void login() {
 }
 
 int main() {
-
+    trackFile.open(".tracking.txt");
     printf("Welcome to the Bank!\n");
     string options[3] = {"Login", "Sign up", "Exit"};
 
@@ -383,6 +403,8 @@ int main() {
             break;
         }
     }
+
+    trackFile.close();
 
     // login();
 
