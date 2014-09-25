@@ -304,10 +304,10 @@ void selectChequing(Customer *customer) { //if customer select chequing
     }
 }
 
-void transaction(Customer *customer, string username) {
-    bool performingTransaction = true;
-    string options[5] = {"Select Chequing", "Select Saving", "Close Account", "Open Account", "Exit"};
-    while (performingTransaction) {
+void transaction(Customer *customer, string username) { //transcations using customer and username 
+    bool performingTransaction = true; //we are performing transcation 
+    string options[5] = {"Select Chequing", "Select Saving", "Close Account", "Open Account", "Exit"}; //options you can do with transaction 
+    while (performingTransaction) { //
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n";
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
             cout << (i + 1) << ". " << options[i] << endl;
