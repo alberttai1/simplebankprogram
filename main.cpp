@@ -9,6 +9,64 @@ using namespace std;
 bool tracking = false;
 ofstream trackFile;
 
+void closeAccount(Customer *customer) {
+    cout << "Which account would you like to close? (1-2)" << endl;
+    cout << "1. Chequing" << endl;
+    cout << "2. Saving" << endl;
+
+    int choice;
+    cin >> choice;
+    if (choice == 1) {
+        if (customer->getChequingBalance() == 0) {
+            customer->closeChequing();
+        } else {
+            cout << "Account cannot be closed. Balance is not $0." << endl;
+            if (tracking) {
+                trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            }
+        }
+    } else if (choice == 2) {
+        if (customer->getSavingBalance() == 0) {
+            customer->closeSaving();
+        } else {
+            cout << "Account cannot be closed. Balance is not $0." << endl;
+            if (tracking) {
+                trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            }
+        }
+        
+    }
+}
+
+void openAccount(Customer *customer) {
+    cout << "Which account would you like to close? (1-2)" << endl;
+    cout << "1. Chequing" << endl;
+    cout << "2. Saving" << endl;
+
+    int choice;
+    cin >> choice;
+    if (choice == 1) {
+        if (!(customer->isChequing())) {
+            customer->openChequing();
+        } else {
+            cout << "Account already exists. Balance is $" << customer->getChequingBalance() << endl;
+            if (tracking) {
+                trackFile << "Account already exists. Balance is $" << customer->getChequingBalance() << endl;
+            }
+        }
+    } else if (choice == 2) {
+        if (!(customer->isSaving())) {
+            customer->openSaving();
+        } else {
+            cout << "Account already exists. Balance is $" << customer->getSavingBalance() << endl;
+            if (tracking) {
+                trackFile << "Account already exists. Balance is $" << customer->getSavingBalance() << endl;
+            }
+        }
+        
+    } 
+}
+
 void selectSaving(Customer *customer) {
     string options[5] = {"Make a deposit", "Make a withdrawl.", "Transfer to chequing", "Check Balance", "Exit"};
     while (true) {
@@ -231,7 +289,7 @@ void selectChequing(Customer *customer) {
 
 void transaction(Customer *customer, string username) {
     bool performingTransaction = true;
-    string options[3] = {"Select Chequing", "Select Saving", "Exit"};
+    string options[5] = {"Select Chequing", "Select Saving", "Close Account", "Open Account", "Exit"};
     while (performingTransaction) {
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n";
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
@@ -251,6 +309,11 @@ void transaction(Customer *customer, string username) {
         } else if (choice == 2) {
             selectSaving(customer);
         } else if (choice == 3) {
+            closeAccount(customer);
+        } else if (choice == 4) {
+            openAccount(customer);
+        }
+        else if (choice == 5) {
             ofstream file;
             string filename = username + ".txt";
             file.open(filename.c_str(), ios::out);
@@ -427,33 +490,34 @@ void manageCustomer(Customer *customer) {
         cin >> choice;
 
         if (choice == 1) {
-
+            openAccount(customer);
         } else if (choice == 2) {
-            cout << "Which account would you like to close? (1-2)" << endl;
-            cout << "1. Chequing" << endl;
-            cout << "2. Saving" << endl;
+            closeAccount(customer);
+            // cout << "Which account would you like to close? (1-2)" << endl;
+            // cout << "1. Chequing" << endl;
+            // cout << "2. Saving" << endl;
 
-            cin >> choice;
-            if (choice == 1) {
-                if (customer->getChequingBalance() == 0) {
-                    customer->closeChequing();
-                } else {
-                    cout << "Account cannot be closed. Balance is not $0." << endl;
-                    if (tracking) {
-                        trackFile << "Account cannot be closed. Balance is not $0." << endl;
-                    }
-                }
-            } else if (choice == 2) {
-                if (customer->getSavingBalance() == 0) {
-                    customer->closeSaving();
-                } else {
-                    cout << "Account cannot be closed. Balance is not $0." << endl;
-                    if (tracking) {
-                        trackFile << "Account cannot be closed. Balance is not $0." << endl;
-                    }
-                }
+            // cin >> choice;
+            // if (choice == 1) {
+            //     if (customer->getChequingBalance() == 0) {
+            //         customer->closeChequing();
+            //     } else {
+            //         cout << "Account cannot be closed. Balance is not $0." << endl;
+            //         if (tracking) {
+            //             trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            //         }
+            //     }
+            // } else if (choice == 2) {
+            //     if (customer->getSavingBalance() == 0) {
+            //         customer->closeSaving();
+            //     } else {
+            //         cout << "Account cannot be closed. Balance is not $0." << endl;
+            //         if (tracking) {
+            //             trackFile << "Account cannot be closed. Balance is not $0." << endl;
+            //         }
+            //     }
                 
-            }
+            // }
         } else if (choice == 3) {
             if (customer->isChequing()) {
                 cout << "Chequing Balance: $" << customer->getChequingBalance() << endl;
@@ -599,7 +663,7 @@ void login() {
 }
 
 int main() {
-    trackFile.open(".tracking.txt");
+    trackFile.open(".tracking.txt", ios::out | ios::app);
     printf("Welcome to the Bank!\n");
     string options[2] = {"Login", "Exit"};
 
@@ -612,7 +676,7 @@ int main() {
         cin >> choice;
         if (choice == 1) {
             login();
-        } else if (choice == 3) {
+        } else if (choice == 2) {
             break;
         }
     }
