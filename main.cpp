@@ -395,11 +395,11 @@ bool checkForExistingAccount(string username) {
     return false;
 }
 
-void signup() {
+void signup() { //how to singup 
     ofstream accounts;
-    accounts.open("accounts.txt", ios::out | ios::app);
+    accounts.open("accounts.txt", ios::out | ios::app); //open the file that stores user and passwrod 
     if (tracking) {
-        trackFile << "File \"accounts.txt\" was opened for append." << endl;
+        trackFile << "File \"accounts.txt\" was opened for append." << endl; //list it under track file 
     }
 
     bool signingup = true;
@@ -407,53 +407,53 @@ void signup() {
         string username;
         string password;
         string secPass;
-        cout << "Username: ";
-        cin >> username;
+        cout << "Username: "; //ask the user to input username 
+        cin >> username; //save it as variable 
         if (tracking) {
-            trackFile << username << endl;
+            trackFile << username << endl; //put it under tracking info 
         }
         if (tracking) {
             trackFile << "Obtained username from user." << endl;
             trackFile << "Username: " << username << endl;
         }
-        cout << "Password: ";
-        cin >> password;
+        cout << "Password: "; //ask user to input password they want 
+        cin >> password; //save it as variable 
         if (tracking) {
-            trackFile << "**********" << endl;
+            trackFile << "**********" << endl; //add it to trackfile 
         }
 
-        cout << "Re-Enter Password: ";
-        cin >> secPass;
+        cout << "Re-Enter Password: "; //ask them to reenter 
+        cin >> secPass; //save it as sec pass 
 
         if (tracking) {
             trackFile << "Obtained password from user." << endl;
             trackFile << "Asked for password confirmation." << endl;
         }
 
-        if (checkForExistingAccount(username)) {
-            cout << "Username already exists!" << endl;
+        if (checkForExistingAccount(username)) { //check if the username is taken 
+            cout << "Username already exists!" << endl; //if so tell them they cannot use it 
             if (tracking) {
-                trackFile << "Sign up attempt with already existing username." << endl;
+                trackFile << "Sign up attempt with already existing username." << endl; //let them know username is taken 
             }
-        } else if (secPass == password) {
+        } else if (secPass == password) { //if password and password confirmation is same then go on to second part 
             if (tracking) {
-                trackFile << "Username and password confirmed." << endl;
+                trackFile << "Username and password confirmed." << endl; //put it into tracking file 
             }
-            accounts << username << "," << password << "\n";
+            accounts << username << "," << password << "\n"; //put username,password format into accounts 
             if (tracking) {
-                trackFile << "Writing user username and password to \"accounts.txt\"" << endl;
+                trackFile << "Writing user username and password to \"accounts.txt\"" << endl; //put into tracking file we are writing it to file 
             }
             string fname;
             string lname;
-            cout << "What is your first name?" << endl;
-            cin >> fname;
+            cout << "What is your first name?" << endl; //ask user to input name 
+            cin >> fname; //store it 
             if (tracking) {
-                trackFile << "Acquired first name from user." << endl;
+                trackFile << "Acquired first name from user." << endl; //put into tracking file if tracking is enabled 
             }
-            cout << "What is your last name?" << endl;
-            cin >> lname;
-            if (tracking) {
-                trackFile << "Acquired last name from user." << endl;
+            cout << "What is your last name?" << endl; //what is your last name 
+            cin >> lname; //write into it 
+            if (tracking) { //if tracking is enabled 
+                trackFile << "Acquired last name from user." << endl; //put that we acquired last name as well 
             }
             ofstream newAccount;
             string newFile = username + ".txt";
@@ -484,62 +484,62 @@ void signup() {
     }
 }
 
-Customer loadCustomer(string username) {
+Customer loadCustomer(string username) { //loading customer from username 
     ifstream user;
-    string filename = username + ".txt";
-    user.open(filename.c_str());
+    string filename = username + ".txt"; //get the filename of username which is username.txt 
+    user.open(filename.c_str()); //open it 
 
     string firstname;
     string lastname;
     string chequingStr;
     string savingsStr;
 
-    getline(user, firstname);
-    getline(user, lastname);
-    getline(user, chequingStr);
-    getline(user, savingsStr);
+    getline(user, firstname); //first line is first name 
+    getline(user, lastname); //second line is last name 
+    getline(user, chequingStr); //third line is chequing info 
+    getline(user, savingsStr); //fourth line is saving info 
 
-    user.close();
+    user.close(); //user close 
 
-    int chequing = atoi(chequingStr.c_str());
-    int saving = atoi(savingsStr.c_str());
+    int chequing = atoi(chequingStr.c_str()); //Umar 
+    int saving = atoi(savingsStr.c_str()); //Umar ar 
 
-    Customer tmp(firstname, lastname, chequing, saving);
+    Customer tmp(firstname, lastname, chequing, saving); //create temp customer 
 
-    return tmp;
+    return tmp; //return the customer obj 
 
 }
 
-void manageCustomer(Customer *customer) {
-    string options[4] = {"Open an account", "Close an account", "View details", "Exit"};
+void manageCustomer(Customer *customer) { //managing console for managers  
+    string options[4] = {"Open an account", "Close an account", "View details", "Exit"}; //give them options 
     while (true) {
-        cout << "What would you like to do? (Enter a number from 1-" << sizeof(options)/sizeof(options[0]) << ")" << endl;
-        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
+        cout << "What would you like to do? (Enter a number from 1-" << sizeof(options)/sizeof(options[0]) << ")" << endl; //option number 
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) { //cycle through 
             cout << (i + 1) << ". " << options[i] << endl;
         }
         int choice;
-        cin >> choice;
+        cin >> choice; //take input 
 
-        if (choice == 1) {
-            openAccount(customer);
-        } else if (choice == 2) {
-            closeAccount(customer);
+        if (choice == 1) { //if they want to open an account 
+            openAccount(customer); //open the account for them 
+        } else if (choice == 2) { //if they want to close account 
+            closeAccount(customer); //close account for them 
 
-        } else if (choice == 3) {
-            if (customer->isChequing()) {
+        } else if (choice == 3) { //if they want to view details 
+            if (customer->isChequing()) { //get their chequing info 
                 cout << "Chequing Balance: $" << customer->getChequingBalance() << endl;
                 if (tracking) {
                     trackFile << "Chequing Balance: $" << customer->getChequingBalance() << endl;
                 }
             }
-            if (customer->isSaving()) {
+            if (customer->isSaving()) { //get their saving info 
                 cout << "Saving Balance: $" << customer->getSavingBalance() << endl;
                 if (tracking) {
                     trackFile << "Saving Balance: $" << customer->getSavingBalance() << endl;
                 }
             }
-        } else if (choice == 4) {
-            break;
+        } else if (choice == 4) { //if they want to exit 
+            break; //exit 
         }
     }
 }
@@ -575,7 +575,7 @@ void manager() { //managing console
             continue; //if so continue 
 
         Customer tmp = loadCustomer(username); //get the customer 
-        customers.insert(customers.end(), tmp); 
+        customers.insert(customers.end(), tmp); //UMAR 
     }
 
     accounts.close(); //close the account 
