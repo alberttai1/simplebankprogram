@@ -601,13 +601,14 @@ void manager() {
             manageCustomer(&customers.at(choice - 1));
 
         } else if (choice == 2) {
-            printf("%s\t\t\t\t%s\t\t%s\n", "Name", "Chequing" ,"Saving");
+            printf("%s\t\t\t\t%s\t\t%s\t\t%s\n", "Name", "Chequing" ,"Saving", "Total");
             if (tracking) {
-                trackFile << "Name\t\t\t\tChequing\t\tSaving" << endl;
+                trackFile << "Name\t\t\t\tChequing\t\tSaving\t\tTotal" << endl;
             }
             int i = 0;
             for (vector<Customer>::iterator it = customers.begin(); it != customers.end(); ++it, i++) {
-                printf("%s %s\t\t\t%d\t\t\t%d\n", (it->getFirstName()).c_str(), (it->getLastName()).c_str(), it->isChequing() == true ? (it->getChequingBalance() + ""):"Closed", it->isSaving() == true ? (it->getSavingBalance() + ""):"Closed");
+                int total = it->isChequing() == true ? it->getChequingBalance():0 + it->isSaving() == true ? it->getSavingBalance():0;
+                printf("%s %s\t\t\t%d\t\t\t%d\t\t%d\n", (it->getFirstName()).c_str(), (it->getLastName()).c_str(), it->isChequing() == true ? ((it->getChequingBalance())):0, it->isSaving() == true ? ((it->getSavingBalance())):0, total);
 
                 if (tracking) {
                     trackFile << it->getFirstName() << " " << it->getLastName() << "\t\t\t";
