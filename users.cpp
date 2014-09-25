@@ -39,7 +39,8 @@ Customer::Customer(string firstName, string lastName, int camount): User(firstNa
 }
 
 Customer::Customer(string firstName, string lastName, int camount, int samount): User(firstName, lastName) {
-	openChequing();
+	if (camount > 0)
+		openChequing();
 	if (samount > 0)
 		openSaving();
 	chequing = Chequing(camount);

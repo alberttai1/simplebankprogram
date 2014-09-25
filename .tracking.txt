@@ -38,3 +38,70 @@ azhar
 3620
 1340
 User file closed.
+Tracking is now turned on.
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+1
+What would you like to do? (Enter number between 1-5
+1. Make a deposit.
+2. Make a withdrawl.
+3. Transfer to savings.
+4. Check Balance.
+5. Exit
+1
+How much would you like to deposit?
+400
+Your new balance is $400
+What would you like to do? (Enter number between 1-5
+1. Make a deposit.
+2. Make a withdrawl.
+3. Transfer to savings.
+4. Check Balance.
+5. Exit
+5
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+1
+What would you like to do? (Enter number between 1-5
+1. Make a deposit.
+2. Make a withdrawl.
+3. Transfer to savings.
+4. Check Balance.
+5. Exit
+1
+How much would you like to deposit?
+4
+Your new balance is $404
+What would you like to do? (Enter number between 1-5
+1. Make a deposit.
+2. Make a withdrawl.
+3. Transfer to savings.
+4. Check Balance.
+5. Exit
+4
+Your balance is $404
+What would you like to do? (Enter number between 1-5
+1. Make a deposit.
+2. Make a withdrawl.
+3. Transfer to savings.
+4. Check Balance.
+5. Exit
+5
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+5
+User file opened.
+saad
+ahmed
+404
+0
+User file closed.
