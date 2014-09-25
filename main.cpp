@@ -215,10 +215,10 @@ void selectChequing(Customer *customer) { //if customer select chequing
         } else if (choice == 2) { //if the user choose make a withdrawal 
             cout << "How much would you like to withdraw?" << "\n"; 
             if (tracking) { //if tracking is on 
-                trackFile << "How much would you like to withdraw?" << endl; 
+                trackFile << "How much would you like to withdraw?" << endl; //put it into the tracking file 
             }
             int amount;
-            cin >> amount;
+            cin >> amount; //take the input 
             if (tracking) {
                 trackFile << amount << endl;
             }
