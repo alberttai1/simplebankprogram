@@ -8,6 +8,8 @@ class Customer: public User {
 	friend class Manager;
 	Chequing chequing = NULL;
 	Saving saving = NULL;
+	bool canCheque = false;
+	bool canSave = false;
 
 public:
 	Customer(string, string);
@@ -17,6 +19,12 @@ public:
 	void depositSaving(int);
 	void withdrawChequing(int);
 	void withdrawSaving(int);
+	bool isChequing();
+	bool isSaving();
+	void openChequing();
+	void openSaving();
+	void closeChequing();
+	void closeSaving();
 	int getChequingBalance();
 	int getSavingBalance();
 
@@ -48,6 +56,26 @@ void Customer::withdrawChequing(int amount) {
 
 void Customer::withdrawSaving(int amount) {
 	saving.withdraw(amount);
+}
+
+bool Customer::isChequing(){return canCheque;}
+
+bool Customer::isSaving(){return canSave;}
+
+void Customer::openChequing() {
+	canCheque = true;
+}
+
+void Customer::openSaving() {
+	canSave = true;
+}
+
+void Customer::closeChequing() {
+	canCheque = false;
+}
+
+void Customer::closeSaving() {
+	canSave = false;
 }
 
 int Customer::getChequingBalance() {return chequing.getBalance();}
