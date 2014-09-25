@@ -309,21 +309,21 @@ void transaction(Customer *customer, string username) { //transcations using cus
     string options[5] = {"Select Chequing", "Select Saving", "Close Account", "Open Account", "Exit"}; //options you can do with transaction 
     while (performingTransaction) { //
         cout << "What would you like to do? (Enter number between 1-" << sizeof(options)/sizeof(options[0]) << "     " << "\n";
-        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) {
+        for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) { //cycle through options 
             cout << (i + 1) << ". " << options[i] << endl;
             if (tracking) {
                 trackFile << (i + 1) << ". " << options[i] << endl;
             }
         }
         int choice;
-        cin >> choice;
+        cin >> choice; //save the choice the person made 
         if (tracking) {
-            trackFile << choice << endl;
+            trackFile << choice << endl; //put into tracker what choice they made 
         }
 
         if (choice == 1) {
-            if (customer->isChequing()){
-                selectChequing(customer);
+            if (customer->isChequing()){ //check if chequing is not closed 
+                selectChequing(customer); //select it 
             } else {
                 cout << "Account is closed." << endl;
                 if (tracking) {
@@ -331,8 +331,8 @@ void transaction(Customer *customer, string username) { //transcations using cus
                 }
             }
         } else if (choice == 2) {
-            if (customer->isSaving()) {
-                selectSaving(customer);
+            if (customer->isSaving()) { //check if savings is opened 
+                selectSaving(customer); //select it 
             } else {
                 cout << "Account is closed." << endl;
                 if (tracking) {
@@ -340,11 +340,11 @@ void transaction(Customer *customer, string username) { //transcations using cus
                 }
             }
         } else if (choice == 3) {
-            closeAccount(customer);
+            closeAccount(customer); //close account 
         } else if (choice == 4) {
-            openAccount(customer);
+            openAccount(customer); //open account 
         }
-        else if (choice == 5) {
+        else if (choice == 5) { //exit 
             ofstream file;
             string filename = username + ".txt";
             file.open(filename.c_str(), ios::out);
@@ -364,32 +364,32 @@ void transaction(Customer *customer, string username) { //transcations using cus
     }
 }
 
-bool checkForExistingAccount(string username) {
+bool checkForExistingAccount(string username) { //checkin for existing account 
     if (tracking) {
-        trackFile << "Checking for existing account for " << username << endl;
+        trackFile << "Checking for existing account for " << username << endl; //put in tracker if tracking is enabled 
     }
     ifstream accounts;
-    accounts.open("accounts.txt");
+    accounts.open("accounts.txt"); //open it 
     if (tracking) {
-        trackFile << "Opened file \"accounts.txt\"." << endl;
+        trackFile << "Opened file \"accounts.txt\"." << endl; //let tracker know 
     }
 
     string user;
     while (getline(accounts, user)) {
-        user = user.substr(0, user.find(","));
+        user = user.substr(0, user.find(",")); //check each line for usernames 
 
-        if (user.compare(username) == 0) {
+        if (user.compare(username) == 0) { //check if same 
             accounts.close();
             if (tracking) {
-                trackFile << "User found." << endl;
+                trackFile << "User found." << endl; //if so let tracker know user name is found 
                 trackFile << "Closing file \"accounts.txt\"." << endl;
             }
             return true;
         }
     }
-    accounts.close();
+    accounts.close(); //close 
     if (tracking) {
-        trackFile << "Closing file \"accounts.txt\"." << endl;
+        trackFile << "Closing file \"accounts.txt\"." << endl; //let tracker know we are closing it 
     }
 
     return false;
@@ -455,13 +455,13 @@ void signup() { //how to singup
             if (tracking) { //if tracking is enabled 
                 trackFile << "Acquired last name from user." << endl; //put that we acquired last name as well 
             }
-            ofstream newAccount;
-            string newFile = username + ".txt";
+            ofstream newAccount; //creating new file name for customer 
+            string newFile = username + ".txt"; //will be named username.txt 
             newAccount.open(newFile.c_str());
             if (tracking) {
                 trackFile << "Creating new file for user." << endl;
             }
-            newAccount << fname << "\n" << lname << "\n" << 0 << "\n" << 0 << "\n";
+            newAccount << fname << "\n" << lname << "\n" << 0 << "\n" << 0 << "\n"; //put first name then last name on a new line then 0 for chequing balance and 0 for saving balnace 
             if (tracking) {
                 trackFile << "Writing user info to file: firstName, lastName, chequing balance, and saving balance" << endl;
             }
