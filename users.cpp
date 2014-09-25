@@ -5,14 +5,14 @@
 using namespace std;
 
 class Customer: public User {
-	friend class Manager;
+	friend class Manager; //friend class with teh manager. so manager has access to all methods and variables of Customer class.
 	Chequing chequing = NULL;
 	Saving saving = NULL;
-	bool canCheque = false;
+	bool canCheque = false; //keeps track whether the chequing and saving accounts have been initialized.
 	bool canSave = false;
 
-public:
-	Customer(string, string);
+public: //declares all public methods.
+	Customer(string, string); //constructors.
 	Customer(string, string, int);
 	Customer(string, string, int, int);
 	void depositChequing(int);
@@ -20,12 +20,12 @@ public:
 	void withdrawChequing(int);
 	void withdrawSaving(int);
 	bool isChequing();
-	bool isSaving();
+	bool isSaving(); //returns whether the savings and chequing accounts have been initialized.
 	void openChequing();
 	void openSaving();
-	void closeChequing();
+	void closeChequing(); //closes open chequing and saving accounts.
 	void closeSaving();
-	int getChequingBalance();
+	int getChequingBalance();//returns the balance of chequing and saving accounts.
 	int getSavingBalance();
 
 };
@@ -89,7 +89,7 @@ int Customer::getSavingBalance() {return saving.getBalance();}
 
 
 
-class Manager: public User {
+class Manager: public User { //manager class. inherits from User class
 
 public:
 	Manager(string, string);
