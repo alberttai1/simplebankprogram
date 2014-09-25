@@ -218,26 +218,28 @@ void selectChequing(Customer *customer) { //if customer select chequing
                 trackFile << "How much would you like to withdraw?" << endl; //put it into the tracking file 
             }
             int amount;
-            cin >> amount; //take the input 
-            if (tracking) {
-                trackFile << amount << endl;
+            cin >> amount; //take the input amount 
+            if (tracking) { //check if tracking is on 
+                trackFile << amount << endl; //put the amount into the tracking file 
             }
 
-            int diff = customer->getChequingBalance() - amount - 2;
-            if (diff < 1000 && diff > 0) {
+            int diff = customer->getChequingBalance() - amount - 2; //the difference of the chequing balance and the amount
+            if (diff < 1000 && diff > 0) { //if difference less than zero and difference is still above zero 
+                //warn the users that there will be surcharge of $2 if they continue due to their balance is below 1k. 
                 cout << "Your balance will be $" << diff << ". If you continue a surcharge fee of $2.00 will apply. Would you like to continue? (yes or no)" << "\n";
-                if (tracking) {
+                if (tracking) { //if tracking is on
+                    //put it into tracking file 
                     trackFile << "Your balance will be $" << diff << ". If you continue a surcharge fee of $2.00 will apply. Would you like to continue? (yes or no)" << endl;
                 }
 
                 string ans;
-                cin >> ans;
-                if (tracking) {
-                    trackFile << ans << endl;
+                cin >> ans; //take the input the answer whether or not to continue 
+                if (tracking) { //if tracking is on 
+                    trackFile << ans << endl; // take the input the answer whether or not to continue into tracking file  
                 }
 
 
-                if (ans.compare("yes") == 0) {
+                if (ans.compare("yes") == 0) { //if you chose 
                     customer->withdrawChequing(amount + 2);
                 }
             } else if (diff < 0) {
