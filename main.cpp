@@ -127,10 +127,18 @@ void selectSaving(Customer *customer) {
             if (tracking) {
                 trackFile << "Your current balance is " << customer->getSavingBalance() << endl; //tracking is on then put the balance on the tracking file 
             }
-        } else if (choice == 3) { //transfer to chequing 
-            cout << "How much would you like to transfer?" << "\n"; 
-            if (tracking) { //if tracking is on 
-                trackFile << "How much would you like to transfer?" << endl; //copy the output to tracking file 
+
+        } else if (choice == 3) {
+            if (!(customer->isChequing())) {
+                cout << "Chequing account is closed." << endl;
+                if (tracking) {
+                    trackFile << "Chequing account is closed." << endl;
+                }
+                continue;
+            }
+            cout << "How much would you like to transfer?" << "\n";
+            if (tracking) {
+                trackFile << "How much would you like to transfer?" << endl;
             }
             int tamount;
             cin >> tamount; //take the input of the transfer amount 
@@ -246,6 +254,13 @@ void selectChequing(Customer *customer) { //if customer select chequing
                 trackFile << "Your current balance is $" << customer->getChequingBalance() << endl;
             }
         } else if (choice == 3) {
+            if (!(customer->isSaving())) {
+                cout << "Saving account is closed." << endl;
+                if (tracking) {
+                    trackFile << "Saving account is closed." << endl;
+                }
+                continue;
+            }
             cout << "How much would you like to transfer?" << "\n";
             if (tracking) {
                 trackFile << "How much would you like to transfer?" << endl;
@@ -611,6 +626,8 @@ void manager() {
             }
         } else if (choice == 3) {
             signup();
+        } else if (choice == 4) {
+            break;
         }
     }
 }
