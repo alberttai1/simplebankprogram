@@ -6,6 +6,8 @@
 
 using namespace std;
 
+bool tracking = false;
+
 void selectSaving(Customer *customer) {
     string options[5] = {"Make a deposit", "Make a withdrawl.", "Transfer to chequing", "Check Balance", "Exit"};
     while (true) {
@@ -266,6 +268,12 @@ void manageCustomer(Customer *customer) {
     }
 }
 
+void maintenance() {
+    cout << "Would you like to turn on the execution trace?" << endl;
+
+    
+}
+
 void manager() {
     vector<Customer> customers;
 
@@ -344,7 +352,7 @@ void login() {
                 if (username.compare("manager") == 0) {
                     manager();
                 } else if (username.compare("maintenance") == 0) {
-
+                    maintenance();
                 } else {
                     Customer tmp = (loadCustomer(username));
                     accounts.close();
