@@ -305,9 +305,23 @@ void transaction(Customer *customer, string username) {
         }
 
         if (choice == 1) {
-            selectChequing(customer);
+            if (customer->isChequing()){
+                selectChequing(customer);
+            } else {
+                cout << "Account is closed." << endl;
+                if (tracking) {
+                    trackFile << "Account is closed." << endl;
+                }
+            }
         } else if (choice == 2) {
-            selectSaving(customer);
+            if (customer->isSaving()) {
+                selectSaving(customer);
+            } else {
+                cout << "Account is closed." << endl;
+                if (tracking) {
+                    trackFile << "Account is closed." << endl;
+                }
+            }
         } else if (choice == 3) {
             closeAccount(customer);
         } else if (choice == 4) {
