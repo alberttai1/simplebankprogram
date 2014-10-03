@@ -2,12 +2,35 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
+#include <time.h>
 #include "users.cpp" //include the users.cpp
 
 using namespace std;
 
 bool tracking = false; //tells you whether tracking is on...default is off
 ofstream trackFile; //track file we store our tracking into
+
+string encrypt(string value) {
+    string toReturn = "";
+    for (int i = 0; i < value.size(); i++) {
+        char tmp = value.at(i);
+
+        toReturn += (tmp + 3) % 128;
+    }
+
+    return toReturn;
+}
+
+string decrypt(string value) {
+    string toReturn = "";
+    for (int i = 0; i < value.size(); i++) {
+        char tmp = value.at(i);
+
+        toReturn += (tmp - 3) % 128;
+    }
+
+    return toReturn;
+}
 
 void closeAccount(Customer *customer) {
     cout << "Which account would you like to close? (1-2)" << endl; //asks users which accounts wants to be closed
@@ -358,6 +381,13 @@ void transaction(Customer *customer, string username) { //transcations using cus
             file.close();
             if (tracking) {
                 trackFile << "User file closed." << endl;
+                time_t rawtime;
+                struct tm * timeinfo;
+
+                time (&rawtime);
+                timeinfo = localtime (&rawtime);
+
+                trackFile << "Logged out: " << asctime(timeinfo) << endl;
             }
             performingTransaction = false;
         }
@@ -395,7 +425,7 @@ bool checkForExistingAccount(string username) { //checkin for existing account
     return false;
 }
 
-void signup() { //how to singup 
+Customer signup() { //how to singup 
     ofstream accounts;
     accounts.open("accounts.txt", ios::out | ios::app); //open the file that stores user and passwrod 
     if (tracking) {
@@ -439,7 +469,7 @@ void signup() { //how to singup
             if (tracking) {
                 trackFile << "Username and password confirmed." << endl; //put it into tracking file 
             }
-            accounts << username << "," << password << "\n"; //put username,password format into accounts 
+            accounts << username << "," << (encrypt(password)).c_str() << "\n"; //put username,password format into accounts 
             if (tracking) {
                 trackFile << "Writing user username and password to \"accounts.txt\"" << endl; //put into tracking file we are writing it to file 
             }
@@ -469,7 +499,8 @@ void signup() { //how to singup
             if (tracking) {
                 trackFile << "User file closed." << endl;
             }
-            signingup = false;
+            Customer tmp(fname, lname);
+            return tmp;
         } else {
             cout << "Passwords did not match." << endl;
             if (tracking) {
@@ -480,8 +511,10 @@ void signup() { //how to singup
 
     accounts.close();
     if (tracking) {
-        trackFile << "Sign up attempt with already existing username." << endl;
+        trackFile << "Closing accounts file." << endl;
     }
+
+    throw -1;
 }
 
 Customer loadCustomer(string username) { //loading customer from username 
@@ -501,8 +534,8 @@ Customer loadCustomer(string username) { //loading customer from username
 
     user.close(); //user close 
 
-    int chequing = atoi(chequingStr.c_str()); //Umar 
-    int saving = atoi(savingsStr.c_str()); //Umar ar 
+    int chequing = atoi(chequingStr.c_str()); //converts the sring to integer value 
+    int saving = atoi(savingsStr.c_str());
 
     Customer tmp(firstname, lastname, chequing, saving); //create temp customer 
 
@@ -575,7 +608,7 @@ void manager() { //managing console
             continue; //if so continue 
 
         Customer tmp = loadCustomer(username); //get the customer 
-        customers.insert(customers.end(), tmp); //UMAR 
+        customers.insert(customers.end(), tmp); //adds customers to the end of the vector 
     }
 
     accounts.close(); //close the account 
@@ -607,7 +640,7 @@ void manager() { //managing console
             }
             int i = 0;
             for (vector<Customer>::iterator it = customers.begin(); it != customers.end(); ++it, i++) {
-                int total = it->isChequing() == true ? it->getChequingBalance():0 + it->isSaving() == true ? it->getSavingBalance():0;
+                int total = (it->isChequing() == true ? it->getChequingBalance():0) + (it->isSaving() == true ? it->getSavingBalance():0);
                 printf("%s %s\t\t\t%d\t\t\t%d\t\t%d\n", (it->getFirstName()).c_str(), (it->getLastName()).c_str(), it->isChequing() == true ? ((it->getChequingBalance())):0, it->isSaving() == true ? ((it->getSavingBalance())):0, total);
 
                 if (tracking) {
@@ -628,7 +661,10 @@ void manager() { //managing console
   
             }
         } else if (choice == 3) {
-            signup();
+            try {
+                Customer newCustomer = signup();
+                customers.insert(customers.end(), newCustomer);
+            } catch (int e) {}
         } else if (choice == 4) {
             break;
         }
@@ -654,7 +690,7 @@ void login() {
         string name = line.substr(0, pos); //look from starting to the , that's username 
 
         if (username.compare(name) == 0) { //if the username is correct or not  
-            string pass = line.substr(pos + 1, line.max_size()); //then look for the passwor from the end of the position of , to end of the thing 
+            string pass = decrypt(line.substr(pos + 1, line.max_size())); //then look for the passwor from the end of the position of , to end of the thing 
             if (pass.compare(password) == 0) {//compare to the password if its right if it is then 
                 cout << "Welcome " << username << "!" << "\n"; //welcome the user 
                 if (username.compare("manager") == 0) { //if the username is manager 
@@ -662,8 +698,19 @@ void login() {
                 } else if (username.compare("maintenance") == 0) { //if the username is maintenance 
                     maintenance(); //open maintenance 
                 } else { 
-                    Customer tmp = (loadCustomer(username)); //make the customer by loading the username 
-                    accounts.close(); //close the file 
+                    Customer tmp = (loadCustomer(username)); //make the customer by loading the username
+                    accounts.close(); //close the file
+                    
+                    if (tracking) {
+                        time_t rawtime;
+                        struct tm * timeinfo;
+
+                        time (&rawtime);
+                        timeinfo = localtime (&rawtime);
+                        trackFile << "Login at: " << asctime(timeinfo) << " by " << tmp.getFirstName() << " " << tmp.getLastName() << endl;
+                    }
+
+
                     transaction(&tmp, username); //open up the field for transcations 
                 }
             }
@@ -673,19 +720,43 @@ void login() {
 
 int main() { 
     trackFile.open(".tracking.txt", ios::out | ios::app); //open the tracking file 
+
+    ifstream infoFile;
+    infoFile.open(".infofile");
+    string shouldTrack;
+    getline(infoFile, shouldTrack);
+
+    if (shouldTrack.compare("true"))
+        tracking = true;
+
+    infoFile.close();
+
     printf("Welcome to the Bank!\n");
+    if (tracking) {
+        trackFile << "Welcome to the Bank!" << endl;
+    }
     string options[2] = {"Login", "Exit"}; //make an array of string that has two fields 
 
     while (true) {
         cout << "What would you like to do? (Enter a number from 1-" << sizeof(options)/sizeof(options[0]) << endl; //let the users know how many options to pick from 
+        if (tracking) {
+            trackFile << "What would you like to do? (Enter a number from 1-" << sizeof(options)/sizeof(options[0]) << endl;
+        }
         for (int i = 0; i < sizeof(options)/sizeof(options[0]); i++) { //cycle through it 
             cout << (i + 1) << ". " << options[i] << endl;
+            if (tracking) {
+                trackFile << (i + 1) << ". " << options[i] << endl;
+            }
         }
         int choice;
         cin >> choice; //take the users choice 
         if (choice == 1) { //if user chose login 
             login(); //login 
-        } else if (choice == 2) { //if user chose exit 
+        } else if (choice == 2) { //if user chose exit
+            ofstream file;
+            file.open(".infofile", ios::out | ios::app);
+            file << tracking << endl;
+            file.close();
             break; //break it 
         }
     }
