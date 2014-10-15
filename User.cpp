@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class User {
+class User { //holds user information such as their name
 	string fname, lname;
 
 public:
@@ -13,7 +13,7 @@ public:
 };
 
 
-User::User(string firstName, string lastName): fname(firstName), lname(lastName) {}
+User::User(string firstName, string lastName): fname(firstName), lname(lastName) {} //constructor
 
 string User::getFirstName() {return fname;}
 

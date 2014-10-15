@@ -105,3 +105,20 @@ ahmed
 404
 0
 User file closed.
+Tracking is now turned on.
+Login at: Thu Sep 25 03:42:27 2014
+
+1. Select Chequing
+2. Select Saving
+3. Close Account
+4. Open Account
+5. Exit
+5
+User file opened.
+umar
+azhar
+39700
+0
+User file closed.
+Logged out: Thu Sep 25 03:42:29 2014
+
